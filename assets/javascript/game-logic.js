@@ -1,11 +1,11 @@
 // Week-4 RPG-Game using jQuery
 
 /*Pseudocode-----------------
-1> Create an object, call it Character; include name, hp, damage, isHero(boolean), isEnemy(boolean), inBattle (boolean), isAlive (boolean)
+1> Create an object, call it Character; include name, hitpoints, damage, isHero(boolean), isEnemy(boolean), inBattle (boolean), isAlive (boolean)
 	-Make it so fuctions are part of the object, the core function will be the Attack(damage). This will be called when the character is  itself being "getting attacked". Damage parameter is insterted when the character(hero) attacks.
 		-When the Attack(damage) is activated
-				-It will lower hero's hp by an amount that is called in by dmg
-				-If the hp <=0, then isAlive will be set to false;
+				-It will lower hero's hitpoints by an amount that is called in by dmg
+				-If the hitpoints <=0, then isAlive will be set to false;
 
 2> Create an array to hold charactersa and enemy objects
 3> Create an intialize function that will be called from the body.onload event using jquery
@@ -13,9 +13,9 @@
 
 4> Create 3 new display functions for each of the div sections
 	-ShowCharacters():
-		-At the start every hero will be set to 'true', so that they all show up in the display (along with the name,hp)
+		-At the start every hero will be set to 'true', so that they all show up in the display (along with the name,hitpoints)
 	-ShowEnemies():
-		This will be empty at the start. It will populate with the remaning heros after a champion is selected (also with name,hp)
+		This will be empty at the start. It will populate with the remaning heros after a champion is selected (also with name,hitpoints)
 	-ShowBattleArena():
 		-This will also be blank at the start, but will display the enemy hero after the user picks which character to battle.
 
@@ -35,203 +35,205 @@
 
 // a global array to hold the Character Objects
 var CharArray = new Array();
-// This holds the name of the currently selected Hero
-var currentHero = null;
-// This holds the name of the currently selected Enemy
-var currentEnemy = null;
+var currentHero = null;  // Holds the name of the selected Hero ("Luke Skywalker")
+var currentEnemy = null; // Holds the name of the selected Enemy ("Darth Maul")
 
-// This will hold the index of the selected Hero and make it an integer. CharArray[currentHeroIndex] gives us the current Hero.
-var currentHeroIndex = null;
-// Holds index of the selected Enemy Hero.
-var currentEnemyIndex = null;
+var currentHeroIndex = null;  // Holds the index of the selected Hero as an integer (CharArray[currentHeroIndex] will give us current hero)  
+var currentEnemyIndex = null;  // Holds the index of the selected Hero as an integer (CharArray[currentHeroIndex] will give us current hero)  
 
-// This will set itself to 'true' whe the Hero dies or the Enemies are all defeated.
-var gameOver = false;
+var gameOver = false;  //set to true when Hero dies or Enemies all die
 
 
-// character function (holds name,hp,damage,isHero,isAlive,isBattle, and the Hero pictures)
-function Character(name, hp, damage, isHero, isAlive, isBattle, pic) {
-
-    this.name = name;
-    this.hp = hp;
-    this.damage = damage;
-    this.isHero = isHero;
-    this.isAlive = isAlive;
-    this.isBattle = isBattle;
-    this.pic = pic;
-    this.Attack = function(hitDamage) {
-
-        this.hp = this.hp - hitDamage;
-
-        // This will check and see if the player is dead.
-        if (this.hitpoints <= 0) {
-
-            this.isAlive = false;
-            return;
-        }
-    }
+function Character(name,hitpoints,damage,isHero,isAlive,isBattle, pic)
+{
+		this.name = name;
+		this.hitpoints = hitpoints;
+		this.damage = damage;
+		this.isHero = isHero;
+		this.isAlive = isAlive;
+		this.isBattle = isBattle;
+		this.pic = pic;
+		this.Attack = function(hitDamage)
+		{
+			this.hitpoints = this.hitpoints - hitDamage;
+			
+			if(this.hitpoints <= 0)  //check if you are dead
+			{
+				 this.isAlive = false;
+				 return;
+			}
+		}
 }
 
-function Attack() {
+function Attack()
+{
 
-    var str;
+	var str;
 
-    if (gameOver == true)
-        return;
 
-    //This is the start. The player needs to select a Hero. 
-    if ($(".hero-div img").length > 1) {
+	if(gameOver==true)
+		return;
 
-        $(".defender-div").html("<p class= 'action-text-p'></p>");
-        $(".action-text-p").html("Choose your Champion to begin the battle.");
-        return;
-    }
+	if($(".hero-div img").length > 1)  //just started, need to select a character
+	{
+		$(".defender-div").html("<p class='action-text-p'></p>");
+		$(".action-text-p").html("Please select a Character to get started.");
+		return;
+	}
 
-    // Player needs to choose an oppoent to battle
-    if (!currentEnemy && $(".enemy-div img").length > 0) {
+	if (!currentEnemy && $(".enemy-div img").length > 0) //No enemy was selected and some are still available show msg to select
+	{
+		$(".defender-div").html("<p class='action-text-p'></p>");
+		$(".action-text-p").html("Please select an Enemy to continue.");
+		return;
+	}
 
-        $(".defender-div").html("<p class='action-text-p></p>");
-        $(".action-text-p").html("Choose your challanger");
-        return;
-    }
+	//Next 2 lines are key...Hero gets attacked then Enemy gets attacked 
+	CharArray[currentHeroIndex].Attack( CharArray[currentEnemyIndex].damage );
+	CharArray[currentEnemyIndex].Attack( CharArray[currentHeroIndex].damage );
 
-    // This is the core code. When the Hero is attacked, the Enemy gets attacked
-    CharArray[currentHeroIndex].Attack(CharArray[currentEnemyIndex].damage);
-    CharArray[currentEnemyIndex].Attack(CharArray[currentHeroIndex].damage);
+	//after the attacks, update the hitpoint DIVs on the screen
+	$(".hero-damage").text(CharArray[currentHeroIndex].hitpoints);
+	$(".defender-damage").text(CharArray[currentEnemyIndex].hitpoints);
 
-    // This will update the Hero/Enemy hp's on the screen.
-    $(".hero-damage").text(CharArray[currentHeroIndex].hp);
-    $(".defender-damage").text(CharArray[currentEnemyIndex].hp);
+	//Play a sound
+	// Play fight music
+	var audio = new Audio("assets/sounds/Lightsaber.mp3");
+	audio.play();
 
-    // Maybe insert some soundeffects?
-    // var audio = new Audio("assests/sounds/#.mp3")''
-    // audio.play();
+	//Write to the message area everything that is happening for each attack click.  If/Else because check for dead, game over
+	if (CharArray[currentHeroIndex].isAlive == true && CharArray[currentEnemyIndex].isAlive == true)
+	{
+		str = "You attacked " + currentEnemy + " for " + CharArray[currentHeroIndex].damage + " damage.<br /><br />";
+		str += currentEnemy + " attacked you back for " + CharArray[currentEnemyIndex].damage + " damage.";
 
-    // This will write a message in an area showing the results for each attack. I used if/else so I could check for defeats/game over.
-    if (CharArray[currentHeroIndex].isAlive == true && CharArray[currentEnemyIndex].isAlive == true) {
+		CharArray[currentHeroIndex].damage += CharArray[currentHeroIndex].damage;  //damage for the hero continually increases
+	}
+	else  //one of you is dead
+	{
+		if(CharArray[currentHeroIndex].isAlive == false)   //Is Hero dead?
+		{
+			str = "You were defeated by " + currentEnemy + ".<br /><br />Game Over.";
+			gameOver = true;	
+		}
+		else   // Enemy Dead
+		{	//Good guy won!  But now check if there is anyone else to fight (i.e. are they all dead?  game over if so)
+			str = "You were victorious against " + currentEnemy + ".<br /><br />";
 
-        str = "You attacked " + currentEnemy + " for " + CharArray[currentEnemyIndex].damage + " damage!<br/><br/>";
-        str += currentEnemy + " countered with an attack for " + CharArray[currentEnemyIndex].damage + " damage!";
-
-        // This will increase the players Hero damage after each attack.
-        CharArray[currentHeroIndex].damage += CharArray[currentHeroIndex].damage;
-    }
-    // If the Hero or Enemy is defeated
-    else {
-
-        if (CharArray[currentHeroIndex].isAlive == false) {
-            str = "You have been defeated by " + currentEnemy + "!<br/><br/>Game Over.";
-            gameOver = true;
-        }
-        // If the Enemy is defeated, check for more Hero's to battle, if no one is left; game over.
-        else {
-
-            str = "You are VICTORIOUS against " + currentEnemy + "!<br/><br/>";
-
-            if ($(".enemy-div img").length > 0) {
-                str += "You man choose a more worthy opponent to battle";
-            } else {
-                str = "You have defeated all opponents. You are named Champion!":
-                    gameOver = true;
-            }
-
-            // Clears the enemy hud and resets the index and asks the player to choose another oppent if there are any left.
-            currentEnemy = null;
-            currentEnemyIndex = null;
-            $(".defender-div").html("<p class ='action-text-p></p>");
-        }
-
-    }
-    $("action-text-p").html(str);
+			if($(".enemy-div img").length > 0){		//If this myEnemyImg exists, there is another enemy in that DIV
+				str += "You can choose to fight another character.";		
+			}
+			else 
+			{
+				str += "There are no more Enemies to fight.  Game Over";
+				gameOver = true;	
+			}
+			
+			currentEnemy = null;
+			currentEnemyIndex = null;	
+			
+			$(".defender-div").html("<p class='action-text-p'></p>");
+		}
+		
+	}
+	$(".action-text-p").html(str);
 
 }
 
 
-// Initialize the game
-function InitializeGame() {
-    // This will clear all divs and start a new game
+function InitializeGame()
+{
+	//Clear the divs, starting new game
     clearAllDivs();
 
-    // Load arrays (hero's) and set properties to default (isAlive =t, isHero=t)
-    CharArray.push(new Character("Frodo Baggins", 85, 15, true, true, false, "frodo.png"));
-    CharArray.push(new Character("Aragorn The Ranger", 135, 25, true, true, false, "aragorn.png"));
-    CharArray.push(new Character("Gandalf the Gray"
-        150, 35, true, true, false, "gandalf.png"));
-    CharArray.push(new Character("Smaug", 200, 40, true, true, false, "smaug.png"));
+	//Load the arrays and set the default properties (i.e. isAlive=true, Ishero=true)
+	CharArray.push(new Character("Aragon",100, 25,true,true,false, "aragorn.png"));
+	CharArray.push(new Character("Frodo",95,8,true,true,false, "frodo.png"));
+	CharArray.push(new Character("Smaug",180,25,true,true,false, "smaug.png"));
+	CharArray.push(new Character("Gandalf The Gray",150,15,true,true,false, "gandalf.png"));
 
+	//Cool built-in function that automatically iterates through our CharArray
+	//and calls the function displayHeroes (while staying here at this line)
+	CharArray.forEach(displayHeroes);
 
-    // This will automatically iterate thought the CharrArray and call the function 'displayHeroes'
-    CharArray.forEach(displayHeroes);
-
-    // Game will begin with a message to tell the player to pick a hero
-    $(".defender-div").html("<p class='action-text-p'></p>");
-    $(".action-text-p").html("Please choose your Champion.");
-
+	//Start the game with a message to select a player.
+	$(".defender-div").html("<p class='action-text-p'></p>");
+	$(".action-text-p").html("Please select a Hero.");
 }
 
-function clearAllDivs() {
-    // Clear all Hero and Enemy divs
-    var herobox = document.getElementById("hero-box");
-    var enemybox = document.getElementById("enemy-box");
-    herobox.innerHTML = "";
-    enemybox.innerHTML = "";
+function clearAllDivs()
+{
+	//Clear Hero and Enemy Divs
+	var herobox = document.getElementById( "hero-box" );
+	var enemybox = document.getElementById( "enemy-box" );
+	herobox.innerHTML = "";
+	enemybox.innerHTML = "";
 
-    // Clear the battle area
-    var defenderName = document.getElementById("defender-div");
-    defenderName.innerHTML = "";
-
+	//Clear Battle Area
+	var defenderName = document.getElementById( "defender-div" );
+	defenderName.innerHTML = "";
 }
 
-function displayAllDivs() {
-    CharArray.forEach(displayHeroes);
-    CharArray.forEach(displayEnemies);
-    CharArray.forEach(displayBattleArena);
+function displayAllDivs()
+{
+	CharArray.forEach (displayHeroes);
+	CharArray.forEach (displayEnemies);
+	CharArray.forEach (displayBattleArena);
 }
 
-function setPlayer(playerId) {
-    CharArray.forEach(updatePlayers);
-    clearAllDivs();
-    displayAllDivs();
+function setPlayer(playerId)
+{
+	CharArray.forEach (updatePlayers);
+	clearAllDivs();
+	displayAllDivs();
 }
 
-function setEnemy(playerId) {
-    CharArray.forEach(updateEnemy);
-    clearAllDivs();
-    displayAllDivs();
+function setEnemy(playerId)
+{
+	CharArray.forEach (updateEnemy);
+	clearAllDivs();
+	displayAllDivs();
 }
 
-function updatePlayers(value, index, arr) {
-    if (CharArray[index].name == currentHero) {
-        CharrArray[index].isHero == true;
-        CharArray[index].isBattle == true;
-        // this will be used in the attack code
-        currentHeroIndex = index;
-    } else {
-        CharArray[index].isHero = false;
-        CharArray[index].isBattle = false;
 
-    }
+function updatePlayers(value, index, arr)
+{
+	if (CharArray[index].name == currentHero){
+		CharArray[index].isHero = true; 
+		CharArray[index].isBattle = true;
+		currentHeroIndex = index;  // we will use this in attack function
+	}
+	else {
+		CharArray[index].isHero = false; 
+		CharArray[index].isBattle = false;	
+	}	
 }
 
-// This is called when the enemy is chosen. Basicly set 'isBattle = ture;' so the enemy will display itself in the battle area
-function updateEnemy(value, index, arr) {
-    if (CharArray[index].name == currentEnemy) {
-        CharArray[index].isBattle = true;
-        // This will be used in the attack function as well.
-        currentEnemyIndex = index;
-    } else {
-        CharArray[index].isBattle = false;
-    }
+// Called when an enemy is selected to do battle.  Just
+//sets isBattle = true so the enemy displays in the Battle Area	
+function updateEnemy(value, index, arr)
+{
+	
+	if (CharArray[index].name == currentEnemy)
+	{
+	  CharArray[index].isBattle = true;
+	  currentEnemyIndex = index;  // we will use this in attack function
+	}
+	else
+	{
+		CharArray[index].isBattle = false;
+	}
 }
 
-// At the start of the game, every character will be displayed in the "herobox"
-function displayHeros(value, index, arr) {
-    var herobox = document.getElementById("hero-box");
-
-    if (CharArray[index].isHero == true && CharArray[index].isAlive == true) {
-        // this goes in herobox.innnerHTML
-        var str;
-        str ="<div class='hero-div'><a href='#'>";
+//Displays heroes (at the beginning of the game, everyone is a hero)
+function displayHeroes(value, index, arr)
+{
+	var herobox = document.getElementById( "hero-box" );
+ 	
+ 	if (CharArray[index].isHero == true && CharArray[index].isAlive == true )
+ 	{
+	 	var str; // = herobox.innerHTML;
+		str ="<div class='hero-div'><a href='#'>";
 		str += "<img class='myHeroImg' id='";
 		str += CharArray[index].name + "' ";
 		str += "src='assets//images//" + CharArray[index].pic + "'>";
@@ -240,65 +242,75 @@ function displayHeros(value, index, arr) {
 		str += "<p class='hero-damage'>" + CharArray[index].hitpoints + "</p></div>";
 
 		$( herobox ).append( str );
-    }
+	}
 }
 
-// This will display enemies in the middle of the screen, after a hero is selected by the player and the other 3 remaining heros are now enemies.
-function displayEnemies(value, index, arr) {
-    var enemybox = document.getElementById("enemy-box");
-
-    // isHero = false and is Alvie = true and not currently battling; display in the middle enemies section...
-    if (CharArray[index].isHero == false && CharArray[index].isAlive == true && CharArray[index].isBattle == false) {
-        // enemybox.innerHTML
-        var str;
-        str = "<div class='enemy-div'><a href='#'>";
-        str += "<img class='myEnemyImg' id='";
-        str += CharArray[index].name + "' ";
-        str += "src='assets//images//" + CharArray[index].pic + "'>";
-        str += "</img></a>";
-        str += "<p class='enemy-p'>" + CharArray[index].name + "</p>";
-        str += "<p class='enemy-damage'>" + CharArray[index].hitpoints + "</p></div>";
-
-        //$( enemybox ).html( str );
-        $(enemybox).append(str);
-    }
-
+//Displays enemies in the middle of the screen (after a hero is selected, the other 3 players become enemies)
+function displayEnemies(value, index, arr)
+{
+	var enemybox = document.getElementById( "enemy-box" );
+ 	
+ 	// If IsHero is false and still alive and Not currently battling (isBattle), then display in the middle Enemies section
+ 	if (CharArray[index].isHero == false && CharArray[index].isAlive == true && CharArray[index].isBattle == false)
+ 	{
+	 	var str; // = enemybox.innerHTML;
+		str ="<div class='enemy-div'><a href='#'>";
+		str += "<img class='myEnemyImg' id='";
+		str += CharArray[index].name + "' ";
+		str += "src='assets//images//" + CharArray[index].pic + "'>";
+		str += "</img></a>";
+		str += "<p class='enemy-p'>" + CharArray[index].name + "</p>";
+		str += "<p class='enemy-damage'>" + CharArray[index].hitpoints + "</p></div>";
+		
+		//$( enemybox ).html( str );
+		$( enemybox ).append( str );
+	}
 }
 
-// Shows the enemy character that is fighting the hero
-// isHero ==false and isBattle===true
-function displayBattleArena(value, index, arr) {
-    var defenderbox = document.getElementById("defender-div");
-    var str;
-
-    // if isHero==false and isAlive==true and isBattle==false, display in the middle of the enemy's section
-    if (CharArray[index].isHero == false ** CharArray[index].isAlive == true && CharArray[index].isBattle == true) {
-        str = "<p id='defender-name' class='defender-p'>" + CharArray[index].name;
-        str += "<img class='myEnemyImg' id='" + CharArray[index].name + "' src='assets//images//" + CharArray[index].pic + "'></img>";
-        str += "<p id='action-text' class='action-text-p'></p><p class='defender-damage'>" + CharArray[index].hitpoints + "</p>";
-        $(defenderbox).append(str);
-    }
-
-
+//Displays only one enemy character that has isHero==false and isBattle==true;
+function displayBattleArena(value, index, arr)
+{
+	var defenderbox = document.getElementById( "defender-div" );
+ 	var str; 
+	
+	// If IsHero is false and still alive and Not currently battling (isBattle), then display in the middle Enemies section
+ 	if (CharArray[index].isHero == false && CharArray[index].isAlive == true && CharArray[index].isBattle == true)
+ 	{
+		str ="<p id='defender-name' class='defender-p'>" + CharArray[index].name;
+		str += "<img class='myEnemyImg' id='" + CharArray[index].name + "' src='assets//images//" + CharArray[index].pic + "'></img>";
+		str += "<p id='action-text' class='action-text-p'></p><p class='defender-damage'>" + CharArray[index].hitpoints + "</p>";
+		$( defenderbox ).append( str );
+	}
+	
 }
 
-// This is where event handlers will go
 
-// When the html is loaded
-$(document).ready(function() {
-    InitializeGame();
-    console.log("Initialized!")
+// --- EVENT HANDLERS BELOW ---
+
+// --- Called when the hmtl document is ready (loaded) ---
+$( document ).ready(function() 
+{
+  //console.log( "Initialized!" );
+  InitializeGame();
 });
 
-$(document).on("click", ".myHeroImg", function() {
+$(document).on('click', '#attack', function(){
+   Attack();
+});
+
+
+$(document).on('click', '.myHeroImg', function(){
     currentHero = event.target.id;
-    setPlayer(currentHero);
-});
+   	setPlayer(currentHero);
+    } );
 
-$(document).on("click", ".myEnemyImg", function() {
-    if (currentEnemy! = null)
-        return;
 
-    currentEnemy = event.target.id;
-    setEnemy(currentEnemy);
+$(document).on('click', '.myEnemyImg', function(){
+	
+		//console.log($(".myEnemyImg"));
+		if(currentEnemy != null)
+			return;
+
+	currentEnemy = event.target.id;
+   	setEnemy(currentEnemy);
 });
