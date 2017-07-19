@@ -41,7 +41,7 @@ $(document).ready(function () {
         hp: 0,
         attkPwr: 0
     }, {
-        ame: "Aragorn",
+        name: "Aragorn",
         image: "url(../images/aragorn.png)",
         baseHp: 125,
         baseAttkPwr: 35,
@@ -49,7 +49,7 @@ $(document).ready(function () {
         hp: 0,
         attkPwr: 0
     }, {
-        ame: "Gandalf The Gray",
+        name: "Gandalf The Gray",
         image: 'url(../images/gandalf.png)',
         baseHp: 200,
         baseAttkPwr: 45,
@@ -57,7 +57,7 @@ $(document).ready(function () {
         hp: 0,
         attkPwr: 0
     }, {
-        ame: "Smaug",
+        name: "Smaug",
         image: 'url(../images/smaug.png)',
         baseHp: 300,
         baseAttkPwr: 45,
@@ -87,6 +87,7 @@ $(document).ready(function () {
             .attr("id",i)
             .addClass("btn enemy")
             .text(myArray[i].name)
+            .css('background-image',myArray[i].image)
         );
     }
 
@@ -126,12 +127,13 @@ $(document).ready(function () {
                     .hide()
                     .text(myArray[tempV].name)
                     .css('border-color', 'green')
+                    .css('background-image', myArray[tempV].image)
             );
             //hero hp in %
             heroPercent = Math.round(heroHp / heroBaseHp * 100);
-            $("div.hero").text(heroName + "'s Health: " + heroPrecent + "%");
+            $("div.heroHp").text(heroName + "'s Health: " + heroPrecent + "%");
             //When hero is selected he will fade into the hero area
-            $('hero').fadeIn(400);
+            $('#hero').fadeIn(400);
             isHeroSelected = true;
 
             $(".selectText").text("Choose Your Opponent!");
@@ -157,12 +159,13 @@ $(document).ready(function () {
                     .addClass("btn")
                     .hide()
                     .text(myArray[tempV].name)
+                    .css('background-image', myArray[tempV].image)
                     .css('border-color', 'black')
             );
             enemyName = myArray[tempV].name;
-            console.log('Enemy Name' + enemyName);
+            console.log('Enemy name' + enemyName);
             enemyPrecent = Math.round(enemyHp / enemyBaseHp * 100);
-            $("div.enemy").text(enemyName + "'s Health: " + enemyPrecent + "%");
+            $("div.enemyHp").text(enemyName + "'s Health: " + enemyPrecent + "%");
 
             //enemy fade in
             $('#enemy').fadeIn(350);
