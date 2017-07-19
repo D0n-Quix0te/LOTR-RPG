@@ -6,46 +6,53 @@
 
     <title>LOTR Champions</title>
 
-    <!-- Css links go here -->
+    <!--================== CSS============== -->
     <link rel="stylesheet" type="text/css" href="assets/css/styles.css">
     <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
 
-    <!-- javaScript links go here. Be sure to add '(document).ready' event in .js -->
+    <!-- ================JAVASCRIPT================== -->
     <script src="assets/javascript/jquery-3.2.1.min.js"></script>
     <script type="text/javascript" src="assets/javascript/game-logic.js"></script>
+	<script type="text/javascript" src="assets/javascript/bootstrap.min.js"></script>
     
 </head>
 
 <body>
-	<div class="hero-hud-div">
-			<div id="hero-box" class="box">
+	<div class="container">
+		<div>
+			<h1 id="title" class="col-xs-12 text-center">LORD OF THE RINGS: CHAMPIONS</h1>
+			<h3 class="col-xs-12 text-left selectText">Choose Your Champion</h3>
+		</div>
+		<div class="container">
+			<div class="col-sm-3"></div>
+            <div class="col-sm-9"></div>
+            <div class="hero col-sm-3 controls"></div>
+            <div class="controls enemyList col-sm-9"></div>
+            <div class=" col-sm-3 controls "></div>
+            <div class=" col-sm-3 ">
+                <button id="attack" class="attack">ATTACK!</button>
+            </div>
+            <div class=" col-sm-5 heroHp"></div>
+            <div class="col-sm-3 spacer enemy"></div>
+            <div class="col-sm-3 spacer "></div>
 
-			</div>
+            <div class="col-sm-5 enemyHp"></div>
+            <div class="col-sm-4"></div>
 
-		<img src="assets/images/hero-hud.png"></img>
-	</div>
+            <div class="co-sm-6 battleInfo">Prepare for Battle!</div>
+            <div class="col-sm-4"></div>
+            <div class=" col-sm-6 battleInfo2"></div>
+            <div class="col-sm-8"></div>
+            <div class="col-sm-4"></div>
 
-	<div id="enemy-hud-div">
-			<div id="enemy-box" class="box">
-
-
-			</div>
-			<img src="assets/images/enemy-hud.png"></img>
-	</div>
-
-	<div class="battlefield-hud-div" id="battlefield-hud-div">
-				<a href="#">
-					<img id="attack" class="attackingImg" src="assets/images/attack.png"></img>
-				</a>
-				<img src="assets/images/battle-arena-hud.png"></img>
-
-				<div id="defender-div" class="defender-div">
+            <form>
+                <input type="submit" id="reset" class="submit reset" value="Reset">
+            </form>
+        </div>
 
 
 
-				</div>
-	</div>
-
+        </div>
 
 </body>
 
