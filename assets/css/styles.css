@@ -1,333 +1,131 @@
-body
-{
-	background-image: url("../images/background.gif");
-	background-size: cover;
-	background-repeat: no-repeat;
+html::before {
+    content: ' ';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: white;
+    background-image: url("../images/background.gif");
+    background-size: cover;
+    will-change: transform;
 }
 
-.box{
-  clear: both;
-  display: block;
-  position: absolute;
-  border: none;
-  top:65px;
-  left:85px;
-  width:450px;
-  height:105px;
-  align-content: center;
+
+body{
+    font-family: 'Sigmar One', cursive,'Yanone Kaffeesatz', sans-serif;
+
 }
 
-.myHeroImg{
-  height:94px;
-  width:94px;
-  padding-right:0px;
- }
+h1 {
+    color: white;
+}
+.title{
+    color: white;
 
- .myEnemyImg{
-  height:94px;
-  width:94px;
-  padding-right:0px;
- }
 
-.xbox{
- clear: both;
-  display: block;
-  position: absolute;
-  border: none;
-  top:320px;
-  left:85px;
-  width:450px;
-  height:105px;
-  align-content: center;
 }
 
-/*.dbox{
- clear: both;
-  display: block;
-  position: absolute;
-  border: none;
-  top:318px;
-  left:85px;
-  width:450px;
-  height:105px;
-  align-content: center;
-}*/
+h2 {
+    color: white;
+    text-align: right;
+}
+.herohp{
+    font-size: 24px;
+    color:white;
+    margin: 10px 0px 10px 0px;
 
-.hero-hud-div
-{
-  border: none;
-  height:200px;
-  width:680px;
-  padding-bottom:60px;
+}
+.enemyhp{
+    font-size: 24px;
+    color:white;
+    margin: 10px 0px 10px 0px;
+
+}
+.spacer {
+    height: 50px;
 }
 
-.hero-div
-{
-    float: left;
-    width: 94px;
-    height: 94px;
-    margin: 6px;
-    border: 3px solid black;
+.attack {
+    margin: 0px 0px 0px 100px;
+}
+
+.reset {
+    margin: 0px 0px 0px 100px;
+}
+
+.btn {
+    width: 150px;
+    height: 150px;
+    padding: 100px 0 0 0;
     text-align: center;
-    margin-top: 10px;
-
-}
-.hero-div img{
-  height:94px;
-  width:94px;
-  padding-right:0px;
- }
-
-.hero-p
-{
-  position: relative;
-  top:0;
-  left:-3px;
-  width:100px;
-  height:20px;
-  background-color: black;
-  color:white;
-  margin-top: -123px;
-  font-size: 12px;
-  align-content: center;
+    white-space: nowrap;
+    margin: 10px 10px 10px 10px;
+    /*	position: absolute;
+// 	display: block; */
+    border: solid 5px #662200;
+    float: right;
+    color: #E36B02;
+    font-size: 18px;
+    border-radius: 20%;
 }
 
-.hero-damage
-{
-  position: relative;
-  top:0;
-  left:-3px;
-  width:100px;
-  height:20px;
-  background-color: navy;
-  color:white;
-  margin-top: 104px;
-  font-size: 12px;
-  align-content: center;
-}
-
-
-/* Start Enemy Section */
-.enemy-hud-div
-{
-  border: none;
-  height:200px;
-  width:680px;
-  padding-bottom:60px;
-}
-
-
-.enemy-div
-{
-    float: left;
-    width: 94px;
-    height: 94px;
-    margin: 6px;
-    border: 3px solid red;
-    text-align: center;
-    margin-top: 20px;
-}
-
-.enemy-div img{
-  height:94px;
-  width:94px;
-  padding-right:0px;
- }
-
-.enemy-p
-{
-  position: relative;
-  top:0;
-  left:-3px;
-  width:100px;
-  height:20px;
-  background-color: red;
-  color:black;
-  margin-top: -123px;
-  font-size: 12px;
-  align-content: center;
-}
-
-.enemy-damage
-{
-  position: relative;
-  top:0;
-  left:-3px;
-  width:100px;
-  height:20px;
-  background-color: red;
-  color:black;
-  margin-top: 104px;
-  font-size: 12px;
-  align-content: center;
-}
-
-
-
-
-/* Battle Arena Section */
-.battlefield-hud-div
-{
-  border: none;
-  height:200px;
-  width:680px;
-  padding-bottom:60px;
-  position: relative;
-}
-
-.attackImg{
-  position: absolute;
-  height:80px;
-  width:80px;
-  top: 0px;
-  left: 0px;
-  padding-right:0px;
-  
-}
-/*
-.defender-div
-{
+.userComm {
+    text-align: left;
     position: absolute;
-    float: left;
-    width: 680px; 
+    display: block;
+    left: 1%;
+    bottom: 90%;
+}
+
+.heroProgress {
+    position: absolute;
+    display: block;
+    left: 8%;
+    bottom: 48%;
+    /*	visibility: hidden;/*visible*/
+}
+
+.enemyImg {
+    float: right;
+    margin: 100px;
+}
+
+.selectText {
+    height: 20px;
+    min-width: 150px;
+    color: white	;
+}
+
+#title {
+    color: white;
+    height: 20px;
+    margin:10px 0px 0px 0px;
+}
+
+.enemyList {
     height: 200px;
-    margin: 3px; 
-    border: none;
-    text-align: center;
-    top: 475px;
-    left: 84px;  
+    min-width: 150px;
 }
-*/
-.defender-div
-{
-    position: absolute;
-    float: left;
-    width: 580px; /*was 130*/
-    height: 170px; /*was 94*/
-    margin: 3px; 
-    border: none;
-    text-align: center;
-    top: 70px;
-    left:87px;  
+.fightInfo {
+    font-size: 24px;
+    color:white;
+    margin: 10px 0px 10px 0px;
+}
+.fightInfo2 {
+    font-size: 24px;
+    color:white;
+    margin: 10px 0px 10px 0px;
+
 }
 
-.defender-div img{
-  height:94px;
-  width:94px;
-  padding-right:0px;
+.hero {
 
-  position: absolute;
-  top: 16px;
-  left:3px; 
-
- }
-
-.defender-p
-{
-  position: absolute;
-  top:-20px;
-  left:15px;
-  width:100px;
-  height:15px;
-  background-color: red;
-  color:black;
-  /*margin-top: 95px;*/
-  font-size: 12px;
-  text-align: center;
-  z-index: 5;
+    display: block;
 }
 
-.defender-damage
-{
-  position: relative;
-  top:94px; 
-  left:15px;
-  width:100px;
-  height:15px;
-  background-color: red;
-  color:black;
-  font-size: 12px;
-  align-content: center;
-}
-.action-text-p
-{
-  position: absolute;
-  top:-10px;
-  left:180px;
-  width:210px;
-  height:80px;
-  background-color: black;
-  color:white;
-  font-size: 16px;
-  text-align: left;
-}
+.enemy {
 
-/*
-.defender-p
-{
-  position: relative;
-  top:10px;
-  left:15px;
-  width:100px;
-  height:15px;
-  background-color: red;
-  color:black;
-  margin-top: 95px;
-  font-size: 12px;
-  text-align: center;
-  
-}
-
-.action-text-p
-{
-  position: relative;
-  top:10px;
-  left:90px;
-  width:300px;
-  height:80px;
-  background-color: black;
-  color:white;
-  font-size: 16px;
-  text-align: left;
-}
-
-.defender-damage
-{
-  position: relative;
-  top:0px; 
-  left:15px;
-  width:100px;
-  height:15px;
-  background-color: red;
-  color:black;
-  font-size: 12px;
-  align-content: center;
-}
-*/
-
-/* Supporting features (i.e. logos, boxes, etc.) */
-
-
-.logo-div{
-  position:absolute;
-  width:330px;
-  height:220px;
-  top:5px;
-  right:15px;
-  float: right;
-}
-
-
-.logo-div img{
-   height:320px;
-   width:222px;
-}
-
-.center {
-   text-align: center;
-}
-
-.float {
-  
-  float: left;
+    display: block;
+    margin-left: 10;
 }

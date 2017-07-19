@@ -34,7 +34,7 @@ $(document).ready(function () {
 //This array will store the characters info
 	var myArray = [{
         name: "Frodo",
-        image: 'url(assets/images/frodo.png)',
+        image: 'url(../images/frodo.png)',
         baseHp: 90,
         baseAttkPwr: 15,
         counterAttkPwr: 8,
@@ -42,7 +42,7 @@ $(document).ready(function () {
         attkPwr: 0
     }, {
         ame: "Aragorn",
-        image: 'url(assets/images/aragorn.png)',
+        image: "url(../images/aragorn.png)",
         baseHp: 125,
         baseAttkPwr: 35,
         counterAttkPwr: 15,
@@ -50,7 +50,7 @@ $(document).ready(function () {
         attkPwr: 0
     }, {
         ame: "Gandalf The Gray",
-        image: 'url(assets/images/gandalf.png)',
+        image: 'url(../images/gandalf.png)',
         baseHp: 200,
         baseAttkPwr: 45,
         counterAttkPwr: 20,
@@ -58,7 +58,7 @@ $(document).ready(function () {
         attkPwr: 0
     }, {
         ame: "Smaug",
-        image: 'url(assets/images/smaug.png)',
+        image: 'url(../images/smaug.png)',
         baseHp: 300,
         baseAttkPwr: 45,
         counterAttkPwr: 29,
@@ -175,15 +175,116 @@ $(document).ready(function () {
         }
     });
 
-    
 
+    function  reportCounterAttack() {
+        heroHp -= enemyCounterAttkPwr;
+        if (heroHp < 0){heroHp =0;}
+        heroAttk += heroBaseAttk;
+        $(".fightInfo").text(enemyName + " attacks " + heroName + " for " + enemyCounterAttkPwr + " Dmg!");
+        heroPrecent = Math.round(heroHp / heroBaseHp * 100);
+        $("div.hero").text(heroName + "'s Health: " + heroPrecent + "%");
+        window.clearInterval(enemyCounterAttkTimer);
 
+        checkForWin();
 
+    }
 
+    $("button#attack").click(function () {
+        if (isHeroSelected && isEnemySelected) {
+            enemyHp -= heroAttk;
+            if(enemyHp <0) {enemyHp = 0;}
 
+            enemyPrecent = Math.round(enemyHp / enemyBaseHp * 100);
+            $(".fightInfo2").text(heroName + "attacks " + enemyName + " for " + heroAttk + " Dmg!");
+            $("div.enemy").text(enemyName + "'s Health: " + enemyPrecent + "%" );
 
+            checkForWin();
+        }
 
+    });
 
+    $('button#reset').click(function () {
+        isEnemySelected = false;
+        heroHp = heroBaseHp;
+        $(".selectText").text("Choose Your Oppenent");
+        fightAudio.pause();
+        backgroundAudio.play();
+
+    });
+
+    function checkForWin() {
+        if (heroHp <=0) {
+            heroHp = 0;
+            $("#title").text("You Have Been Defeated!");
+
+            //Hero is removed from the battlefield
+            $(".fightInfo").text(heroName + " is defeated");
+            $("div.hero").text("");
+            $('#hero').fadeOut(350);
+
+            isHeroSelected = false;
+            //GAME OVER
+        }
+        //Hero Wins
+        else if (enemyHp <= 0) {enemyHp = 0;
+        //display win status and remove enemy
+            $(".fightInfo").text(enemyName + " is defeated!");
+            $('enemy').fadeOut(350);
+
+            //This will reset hero HP
+            heroHp = heroBaseHp;
+            isEnemySelected = false;
+            heroHp = heroBaseHp;
+            $(".selectText").text("Choose Your Opponent");
+            fightAudio.pause();
+            backgroundAudio.play();
+            heroPrecent = Math.round(heroHp / heroBaseHp * 100);
+            $("div.hero").text(heroName + "'s Health: " + heroPrecent + "%");
+            $("#title").text(heroName + " is victorious!")
+        } else {
+            var counterAttackTimer = setTimout (reportCounterAttack, 800);
+            if (heroHp / heroBaseHp * 100 < 75) {
+                $("#hero").css('border-color', 'yellow');
+            }
+            if (enemyHp / enemyBaseHp * 100 < 75) {
+                $("#hero").css('border-color', 'yellow');
+            }
+            if (heroHp / heroBaseHp * 100 < 50) {
+                $("#hero").css('border-color', 'orange');
+            }
+            if (enemyHp / enemyBaseHp * 100 < 50) {
+                $("#hero").css('border-color', 'orange');
+            }
+            if (heroHp / heroBaseHp * 100 < 25) {
+                $("#hero").css('border-color', 'red');
+            }
+            if (enemyHp / enemyBaseHp * 100 < 25) {
+                $("#hero").css('border-color', 'red');
+            }
+
+        }
+
+    }
+
+    function logData() {
+        console.log(this.id);
+        console.log("ID: " + tempV);
+        console.log("Bad guy name: " + myArray[tempV].name);
+        console.log("ID: " + tempV);
+        console.log("Good guy name: " + myArray[tempV].name);
+        console.log("Base attack power: " + heroBaseAttk);
+        console.log("Attack power: " + heroAttk);
+        console.log("Base HP: " + heroBaseHp);
+        console.log("HP: " + heroHp);
+        console.log("ID: " + tempV);
+        console.log("Bad guy name: " + myArray[tempV].name);
+        console.log("Attack power: " + enemyCounterAttkPwr);
+        console.log("Base HP: " + enemyBaseHp);
+        console.log("HP: " + enemyHp);
+        console.log("Hero HP: " + heroHp);
+        console.log("Bad guy HP: " + enemyHp);
+
+    }
 
 
 });
