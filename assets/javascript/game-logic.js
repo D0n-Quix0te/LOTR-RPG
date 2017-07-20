@@ -163,7 +163,7 @@ $(document).ready(function () {
                     .css('border-color', 'black')
             );
             enemyName = myArray[tempV].name;
-            console.log('Enemy name' + enemyName);
+            console.log('Enemy name ' + enemyName);
             enemyPrecent = Math.round(enemyHp / enemyBaseHp * 100);
             $("div.enemyHp").text(enemyName + "'s Health: " + enemyPrecent + "%");
 
@@ -184,7 +184,7 @@ $(document).ready(function () {
         heroHp -= enemyCounterAttkPwr;
         if (heroHp < 0){heroHp =0;}
         heroAttk += heroBaseAttk;
-        $(".fightInfo").text(enemyName + " attacks " + heroName + " for " + enemyCounterAttkPwr + " Dmg!");
+        $(".fightInfo3").text(enemyName + " attacks " + heroName + " for " + enemyCounterAttkPwr + " Dmg!");
         heroPercent = Math.round(heroHp / heroBaseHp * 100);
         $("div.heroHp").text(heroName + "'s Health: " + heroPrecent + "%");
         window.clearInterval(counterAttackTimer);
@@ -200,7 +200,7 @@ $(document).ready(function () {
 
             enemyPrecent = Math.round(enemyHp / enemyBaseHp * 100);
             $(".fightInfo2").text(heroName + " attacks " + enemyName + " for " + heroAttk + " Dmg!");
-            $("div.enemy").text(enemyName + "'s Health: " + enemyPrecent + "%" );
+            $("div.enemyHp").text(enemyName + "'s Health: " + enemyPrecent + "%" );
 
             checkForWin();
         }
@@ -223,7 +223,7 @@ $(document).ready(function () {
 
             //Hero is removed from the battlefield
             $(".fightInfo").text(heroName + " is defeated");
-            $("div.hero").text("");
+            $("div.heroHp").text("");
             $('#hero').fadeOut(350);
 
             isHeroSelected = false;
@@ -236,8 +236,6 @@ $(document).ready(function () {
             $("div.enemyHp").text("");
             $('#enemy').fadeOut(350);
 
-
-
             //This will reset hero HP
             heroHp = heroBaseHp;
             isEnemySelected = false;
@@ -247,7 +245,7 @@ $(document).ready(function () {
             backgroundAudio.play();
             $("html::before").css('background-image');
             $('#hero').css('border-color', 'green');
-            $('#enemy').css('border-color', 'black');
+           // $('#enemy').css('border-color', 'black');
             heroPrecent = Math.round(heroHp / heroBaseHp * 100);
             $("div.heroHp").text(heroName + "'s Health: " + heroPrecent + "%");
             $("#title").text(heroName + " is victorious!")

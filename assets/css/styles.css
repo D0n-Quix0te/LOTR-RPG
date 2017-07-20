@@ -66,7 +66,7 @@ h2 {
 // 	display: block; */
     border: solid 5px #662200;
     float: right;
-    color: #E36B02;
+    color: #ddd;
     font-size: 18px;
     border-radius: 20%;
 }
@@ -109,11 +109,18 @@ h2 {
     min-width: 150px;
 }
 .fightInfo {
-    font-size: 24px;
-    color:white;
+    font-size: 40px;
+    color: #ddd;
     margin: 10px 0px 10px 0px;
 }
 .fightInfo2 {
+    font-size: 24px;
+    color:white;
+    margin: 10px 0px 10px 0px;
+
+}
+
+.fightInfo3 {
     font-size: 24px;
     color:white;
     margin: 10px 0px 10px 0px;
