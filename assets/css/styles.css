@@ -55,6 +55,7 @@ h2 {
 }
 
 .btn {
+    vertical-align: text-top;
     width: 150px;
     height: 150px;
     padding: 100px 0 0 0;
