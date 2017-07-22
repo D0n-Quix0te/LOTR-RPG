@@ -5,8 +5,7 @@ html::before {
     height: 100%;
     top: 0;
     left: 0;
-    background-color: white;
-    background-image: url("../images/background.gif");
+    background: white url("../images/background.gif");
     background-size: cover;
     will-change: transform;
 }
@@ -21,31 +20,31 @@ html::before {
 }
 
 body {
-    font-family: 'ringbearermedium';
+    font-family: 'ringbearermedium', serif;
 }
 
 h1 {
-    color: white;
+    color: #FFD300;
 }
 .title{
-    color: white;
+    color: #FFD300;
 
 
 }
 
 h2 {
-    color: white;
+    color: #FFD300;
     text-align: right;
 }
-.herohp{
+.goodguyhp{
     font-size: 24px;
-    color:white;
+    color: #FFD300;
     margin: 10px 0px 10px 0px;
 
 }
-.enemyhp{
+.badguyhp{
     font-size: 24px;
-    color:white;
+    color: #FFD300;
     margin: 10px 0px 10px 0px;
 
 }
@@ -58,27 +57,29 @@ h2 {
 }
 
 .reset {
-    margin: 0px 0px 0px 100px;
+    margin: 100px 0px 0px 250px;
+    color: black;
+    font-size: 24px;
 }
 
 .btn {
-    vertical-align: text-top;
+    vertical-align: middle;
     width: 150px;
     height: 150px;
     padding: 100px 0 0 0;
     text-align: center;
     white-space: nowrap;
     margin: 10px 10px 10px 10px;
-    /*	position: absolute;
-// 	display: block; */
+    /*position: absolute;*/
+	display: block;
     border: solid 5px #662200;
     float: right;
-    color: #ddd;
-    font-size: 18px;
+    color: #FFD300;
+    font-size: 16px;
     border-radius: 20%;
+    display: block;
 }
-
-.userComm {
+/*.userComm {
     text-align: left;
     position: absolute;
     display: block;
@@ -91,10 +92,15 @@ h2 {
     display: block;
     left: 8%;
     bottom: 48%;
-    /*	visibility: hidden;/*visible*/
+    /*	visibility: hidden;/*visible
+}*/
+
+#attack {
+    color: black;
 }
 
-.enemyImg {
+.monsterImg
+{
     float: right;
     margin: 100px;
 }
@@ -102,45 +108,46 @@ h2 {
 .selectText {
     height: 20px;
     min-width: 150px;
-    color: white	;
+    color: #FFD300	;
 }
 
 #title {
-    color: white;
+    color: #FFD300;
     height: 20px;
     margin:10px 0px 0px 0px;
 }
 
-.enemyList {
+.monsterList {
     height: 200px;
     min-width: 150px;
 }
 .fightInfo {
     font-size: 40px;
-    color: #ddd;
+    color: white;
     margin: 10px 0px 10px 0px;
 }
 .fightInfo2 {
     font-size: 24px;
-    color:white;
+    color: #FFD300;
     margin: 10px 0px 10px 0px;
 
 }
 
 .fightInfo3 {
     font-size: 24px;
-    color:white;
-    margin: 10px 0px 10px 0px;
+    color: #FFD300;
+    margin: 10px -185px 0px 0px;
+    float: right;
 
 }
 
-.hero {
+.goodGuy {
 
     display: block;
 }
 
-.enemy {
+.badGuy{
 
     display: block;
-    margin-left: 10;
+    margin-left: 10px;
 }

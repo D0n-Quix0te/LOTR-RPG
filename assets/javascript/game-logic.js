@@ -8,28 +8,27 @@
 
 $(document).ready(function () {
 
-	var heroHp;
-	var heroAttk;
-	var heroBaseHp;
-	var heroBaseAttk;
-	var heroCounterAttkPwr;
+    var heroHealthPoints;
+    var heroAttackPower;
+    // var heroCounterAttackPower;
+    var heroBaseAttackPower;
+    var heroBaseHealthPoints;
 
-	var enemyHp;
-	var enemyAttk;
-	var enemyBaseHp;
-	var enemyBaseAttk;
-	var enemyCounterAttkPwr;
+    var challengerHealthPoints;
+    // var challengerAttackPower;
+    var challengerCounterAttackPower;
+    var challengerBaseHealthPoints;
 
-	var isHeroSelected = false;
-	var isEnemySelected = false;
-	var heroName, heroId;
-	var enemyName, enemyId;
-
-	var heroPrecent;
-	var enemyPrecent;
+    var heroSelected = false;
+    var challengerSelected = false;
+    var heroName, heroID;
+    var challengerName, challengerID;
+    
+	var heroPercent;
+	var badGuyPercent;
 
 	var backgroundAudio = new Audio('assets/audio/introAudio.mp3');
-	var fightAudio = new Audio('assets/audio/battleAudio.mp3');
+	var backgroundFightAudio = new Audio('assets/audio/battleAudio.mp3');
 
 //This array will store the characters info
 	var myArray = [{
@@ -68,14 +67,14 @@ $(document).ready(function () {
 
 	//Audio files will go here
     backgroundAudio.addEventListener('ended', function () {
-        this.currentTime = 0;
+        // this.currentTime = 0;
         this.play();
 
     }, false);
     backgroundAudio.play();
 
-    fightAudio.addEventListener('ended', function () {
-        this.currentTime = 0;
+    backgroundFightAudio.addEventListener('ended', function () {
+        // this.currentTime = 0;
         this.play();
 
     } , false);
@@ -83,216 +82,208 @@ $(document).ready(function () {
     //Generates selector pics
     for (var i = 0; i < 4; i++) {
 
-        $('.enemyList').append($('<button>')
-            .attr("id",i)
-            .addClass("btn enemy")
-            .text(myArray[i].name)
-            .css('background-image',myArray[i].image)
+        $('.monsterList').append(
+            $('<button>')
+                .attr("id", i)
+                .addClass("btn monster")
+                .text(myArray[i].name)
+                .css('background-image', myArray[i].image)
         );
     }
 
+
     function timedText() {
         setTimeout(removeA, 1000)
-
     }
 
-    var str;
+
+    var uu;
 
     function removeA() {
-        $(str).attr("id", 5);
+        $(uu).attr("id", 5);
     }
 
-    $("button.enemy").click(function () {
 
-        if (isHeroSelected === false){
+    $("button.monster").click(function() {
+
+        if (heroSelected === false) {
             var tempV = this.id;
             var newId = Number(tempV) + 10;
-            heroBaseAttk = myArray[Number(this.id)].baseAttkPwr;
-            heroAttk = myArray[Number(this.id)].baseAttkPwr;
-            heroHp = myArray[Number(this.id)].baseHp;
-            heroBaseHp = myArray[Number(this.id)].baseHp;
+            heroBaseAttackPower = myArray[Number(this.id)].baseAttackPower;
+            heroAttackPower = myArray[Number(this.id)].baseAttackPower;
+            heroHealthPoints = myArray[Number(this.id)].baseHealthPoints;
+            heroBaseHealthPoints = myArray[Number(this.id)].baseHealthPoints;
             $("#" + tempV).attr("id", newId);
 
-            str = "#" + newId;
-            $(str).fadeOut(350);
+            uu = "#" + newId; // move into selector
+            $(uu).fadeOut(400);
             timedText();
             heroName = myArray[tempV].name;
-            console.log('Hero name' + heroName);
+            console.log('Hero name ' + heroName);
 
-            //Places hero in the correct area
-            $('.hero').append(
+            // Move hero to left side of screen
+            $('.goodGuy').append(
                 $('<button>')
-                    .attr("id","hero")
+                    .attr("id", "hero")
                     .addClass("btn")
                     .hide()
                     .text(myArray[tempV].name)
+                    .css('background-image', myArray[tempV].image)
                     .css('border-color', 'green')
-                    .css('background-image', myArray[tempV].image)
             );
-            //hero hp in %
-            heroPercent = Math.round(heroHp / heroBaseHp * 100);
-            $("div.heroHp").text(heroName + "'s Health: " + heroPrecent + "%");
-            //When hero is selected he will fade into the hero area
-            $('#hero').fadeIn(400);
-            isHeroSelected = true;
+            heroPercent = Math.round(heroHealthPoints / heroBaseHealthPoints * 100);
+            $("div.goodguyhp").text(heroName + "'s Health: " + heroPercent + "%");
+            $('#hero').fadeIn(400); // fade in at hero position
+            heroSelected = true;
 
-            $(".selectText").text("Choose Your Opponent!");
+            $(".selectText").text("Select your opponent");
 
-        } else if (isEnemySelected === false) {
 
-            //Move enemy to the correct area
-            enemyName = this.value;
-            enemyId = this.id;
-            var tempV = Number(this.id);
+        } else if (challengerSelected === false) {
 
-            enemyCounterAttkPwr = myArray[Number(this.id)].baseAttkPwr;
-            enemyHp = myArray[Number(this.id)].baseHp;
-            enemyBaseHp = myArray[Number(this.id)].baseHp;
+            // Move challenger
+            challengerName = this.value;
+            challengerID = this.id;
+            var tempVI = Number(this.id);
 
-            str = "#" + tempV;
-            $(str).fadeOut(350);
+            challengerCounterAttackPower = myArray[Number(this.id)].baseAttackPower;
+            challengerHealthPoints = myArray[Number(this.id)].baseHealthPoints;
+            challengerBaseHealthPoints = myArray[Number(this.id)].baseHealthPoints;
+
+
+            uu = "#" + tempVI;
+            $(uu).fadeOut(400);
             timedText();
+            // move challenger to left side of screen
 
-            $('.enemy').append(
+            $('.badGuy').append(
                 $('<button>')
-                    .attr("id","enemy")
+                    .attr("id", "badguy")
                     .addClass("btn")
                     .hide()
-                    .text(myArray[tempV].name)
-                    .css('background-image', myArray[tempV].image)
-                    .css('border-color', 'black')
+                    .text(myArray[tempVI].name)
+                    //  .css('background-image', myArray[tempV].image)
+                    .css('background-image', myArray[tempVI].image)
+                    .css('border-color', 'green')
             );
-            enemyName = myArray[tempV].name;
-            console.log('Enemy name ' + enemyName);
-            enemyPrecent = Math.round(enemyHp / enemyBaseHp * 100);
-            $("div.enemyHp").text(enemyName + "'s Health: " + enemyPrecent + "%");
+            challengerName = myArray[tempVI].name;
+            console.log('Chanllengers name ' + challengerName);
+            badGuyPercent = Math.round(challengerHealthPoints / challengerBaseHealthPoints * 100);
+            $("div.badguyhp").text(challengerName + "'s  Health: " + badGuyPercent + "%");
 
-            //enemy fade in
-            $('#enemy').fadeIn(350);
-
-            isEnemySelected = true;
+            $('#badguy').fadeIn(400); // fade in at hero position
+            challengerSelected = true;
             $(".selectText").text("");
             backgroundAudio.pause();
-            fightAudio.play();
-            $("#title").text("LORD OF THE RINGS: CHAMPIONS");
-
+            backgroundFightAudio.play();
+            $("#title").text("LORD OF THE RINGS: CHAMPIONS")
+            
         }
     });
 
 
-    function  reportCounterAttack() {
-        heroHp -= enemyCounterAttkPwr;
-        if (heroHp < 0){heroHp =0;}
-        heroAttk += heroBaseAttk;
-        $(".fightInfo3").text(enemyName + " attacks " + heroName + " for " + enemyCounterAttkPwr + " Dmg!");
-        heroPercent = Math.round(heroHp / heroBaseHp * 100);
-        $("div.heroHp").text(heroName + "'s Health: " + heroPrecent + "%");
+    function reportCounterAttack(){
+        heroHealthPoints -= challengerCounterAttackPower;
+        if(heroHealthPoints < 0){heroHealthPoints = 0;}
+        heroAttackPower += heroBaseAttackPower;
+        $(".fightInfo").text(challengerName + " attacks " + heroName + " for " + challengerCounterAttackPower + " Dmg!");
+        heroPercent = Math.round(heroHealthPoints / heroBaseHealthPoints * 100);
+        $("div.goodguyhp").text(heroName + "'s Health: " + heroPercent + "%");
         window.clearInterval(counterAttackTimer);
 
         checkForWin();
 
     }
 
-    $("button#attack").click(function () {
-        if (isHeroSelected && isEnemySelected) {
-            enemyHp -= heroAttk;
-            if(enemyHp <0) {enemyHp = 0;}
+    $("button#attack").click(function() {
+        if (heroSelected && challengerSelected) {
+            challengerHealthPoints -= heroAttackPower;
+            if(challengerHealthPoints < 0){challengerHealthPoints = 0;}
 
-            enemyPrecent = Math.round(enemyHp / enemyBaseHp * 100);
-            $(".fightInfo2").text(heroName + " attacks " + enemyName + " for " + heroAttk + " Dmg!");
-            $("div.enemyHp").text(enemyName + "'s Health: " + enemyPrecent + "%" );
-
+            badGuyPercent = Math.round(challengerHealthPoints / challengerBaseHealthPoints * 100);
+            $(".fightInfo").text(heroName + " attacks " + challengerName + " for " + heroAttackPower + " Dmg!");
+            $("div.badguyhp").text(challengerName + "'s  Health: " + badGuyPercent + "%");
             checkForWin();
         }
 
-    });
 
+
+    });
     $('button#reset').click(function() {
-        isEnemySelected = false;
-        heroHp = heroBaseHp;
-        $(".selectText").text("Choose Your Opponent");
-        fightAudio.pause();
+        challengerSelected = false;
+        heroHealthPoints = heroBaseHealthPoints;
+        $(".selectText").text("Select your opponent");
+        backgroundFightAudio.pause();
         backgroundAudio.play();
-
     });
 
-    function checkForWin() {
-        if (heroHp <=0) {
-            heroHp = 0;
-            $("#title").text("You Have Been Defeated!");
 
-            //Hero is removed from the battlefield
-            $(".fightInfo").text(heroName + " is defeated");
-            $("div.heroHp").text("");
-            $('#hero').fadeOut(350);
 
-            isHeroSelected = false;
-            //GAME OVER
-        }
-        //Hero Wins
-        else if (enemyHp <= 0) { enemyHp = 0;
-        //display win status and remove enemy
-            $(".fightInfo").text(enemyName + " is defeated!");
-            $("div.enemyHp").text("");
-            $('#enemy').fadeOut(350);
+    function checkForWin() { // Challenger wins
+        if (heroHealthPoints <= 0) {
+            heroHealthPoints = 0;
+            // print win status
+            $("#title").text("You have been defeated!");
+            // remove hero
+            $(".fightInfo").text(heroName + " is defeated! " );
+            $("div.goodguyhp").text("");
+            $('#goodGuy').fadeOut(400); // fade in at hero position
+            heroSelected = false;
+            // end game
 
-            //This will reset hero HP
-            heroHp = heroBaseHp;
-            isEnemySelected = false;
-            heroHp = heroBaseHp;
-            $(".selectText").text("Choose Your Opponent");
-            fightAudio.pause();
+        } else if (challengerHealthPoints <= 0) { // Hero wins
+            challengerHealthPoints = 0;
+            // set win status
+
+            // print win status
+            // remove bad guy
+            $(".fightInfo").text(challengerName + " is defeated! " );
+            $("div.badguyhp").text("");
+            $('#badguy').fadeOut(400); // fade in at hero position
+            // reset hero HP
+            heroHealthPoints = heroBaseHealthPoints;
+            challengerSelected = false;
+            heroHealthPoints = heroBaseHealthPoints;
+            $(".selectText").text("Select your opponent");
+            backgroundFightAudio.pause();
             backgroundAudio.play();
-            $("html::before").css('background-image');
+            $("html::before ").css('background-image', 'url(../images/background.gif)');
             $('#hero').css('border-color', 'green');
-           // $('#enemy').css('border-color', 'black');
-            heroPrecent = Math.round(heroHp / heroBaseHp * 100);
-            $("div.heroHp").text(heroName + "'s Health: " + heroPrecent + "%");
+            $('#badGuy').css('border-color', 'green');
+            heroPercent = Math.round(heroHealthPoints / heroBaseHealthPoints * 100);
+            $("div.goodguyhp").text(heroName + "'s Health: " + heroPercent + "%");
             $("#title").text(heroName + " is victorious!")
+
+
+
         } else {
             var counterAttackTimer = setTimeout(reportCounterAttack, 800);
-            if (heroHp / heroBaseHp * 100 < 75) {
-                $("#hero").css('border-color', 'yellow');
+            if (heroHealthPoints / heroBaseHealthPoints * 100 < 75) {
+
+                $('#hero').css('border-color', 'yellow');
             }
-            if (enemyHp / enemyBaseHp * 100 < 75) {
-                $("#enemy").css('border-color', 'yellow');
+            if (challengerHealthPoints / challengerBaseHealthPoints * 100 < 75) {
+                $('#badguy').css('border-color', 'yellow');
             }
-            if (heroHp / heroBaseHp * 100 < 50) {
-                $("#hero").css('border-color', 'orange');
+            if (heroHealthPoints / heroBaseHealthPoints * 100 < 50) {
+
+                $('#hero').css('border-color', 'orange');
             }
-            if (enemyHp / enemyBaseHp * 100 < 50) {
-                $("#enemy").css('border-color', 'orange');
+            if (challengerHealthPoints / challengerBaseHealthPoints * 100 < 50) {
+                $('#badguy').css('border-color', 'orange');
             }
-            if (heroHp / heroBaseHp * 100 < 25) {
-                $("#hero").css('border-color', 'red');
+            if (heroHealthPoints / heroBaseHealthPoints * 100 < 25) {
+
+                $('#hero').css('border-color', 'red');
             }
-            if (enemyHp / enemyBaseHp * 100 < 25) {
-                $("#enemy").css('border-color', 'red');
+            if (challengerHealthPoints / challengerBaseHealthPoints * 100 < 25) {
+                $('#badguy').css('border-color', 'red');
             }
 
         }
-
-    }
-
-    function logData() {
-        console.log(this.id);
-        console.log("ID: " + tempV);
-        console.log("Bad guy name: " + myArray[tempV].name);
-        console.log("ID: " + tempV);
-        console.log("Good guy name: " + myArray[tempV].name);
-        console.log("Base attack power: " + heroBaseAttk);
-        console.log("Attack power: " + heroAttk);
-        console.log("Base HP: " + heroBaseHp);
-        console.log("HP: " + heroHp);
-        console.log("ID: " + tempV);
-        console.log("Bad guy name: " + myArray[tempV].name);
-        console.log("Attack power: " + enemyCounterAttkPwr);
-        console.log("Base HP: " + enemyBaseHp);
-        console.log("HP: " + enemyHp);
-        console.log("Hero HP: " + heroHp);
-        console.log("Bad guy HP: " + enemyHp);
-
     }
 
 
-});
+
+}); // document ready
+
