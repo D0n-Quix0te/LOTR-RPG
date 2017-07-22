@@ -8,16 +8,16 @@
 
 $(document).ready(function () {
 
-    var heroHealthealthPointsoints;
+    var heroHealthPoints;
     var heroAttackPower;
     // var heroCounterAttackPower;
     var heroBaseAttackPower;
-    var heroBaseHealthealthPointsoints;
+    var heroBaseHealthPoints;
 
-    var challengerHealthealthPointsoints;
+    var challengerHealthPoints;
     // var challengerAttackPower;
     var challengerCounterAttackPower;
-    var challengerBaseHealthealthPointsoints;
+    var challengerBaseHealthPoints;
 
     var heroSelected = false;
     var challengerSelected = false;
@@ -111,8 +111,8 @@ $(document).ready(function () {
             var newId = Number(tempV) + 10;
             heroBaseAttackPower = myArray[Number(this.id)].baseAttackPower;
             heroAttackPower = myArray[Number(this.id)].baseAttackPower;
-            heroHealthealthPointsoints = myArray[Number(this.id)].baseHealthealthPointsoints;
-            heroBaseHealthealthPointsoints = myArray[Number(this.id)].baseHealthealthPointsoints;
+            heroHealthPoints = myArray[Number(this.id)].baseHealthPoints;
+            heroBaseHealthPoints = myArray[Number(this.id)].baseHealthPoints;
             $("#" + tempV).attr("id", newId);
 
             uu = "#" + newId; // move into selector
@@ -131,7 +131,7 @@ $(document).ready(function () {
                     .css('background-image', myArray[tempV].image)
                     .css('border-color', 'green')
             );
-            heroPercent = Math.round(heroHealthealthPointsoints / heroBaseHealthealthPointsoints * 100);
+            heroPercent = Math.round(heroHealthPoints / heroBaseHealthPoints * 100);
             $("div.goodguyhealthPoints").text(heroName + "'s Health: " + heroPercent + "%");
             $('#hero').fadeIn(400); // fade in at hero position
             heroSelected = true;
@@ -147,8 +147,8 @@ $(document).ready(function () {
             var tempVI = Number(this.id);
 
             challengerCounterAttackPower = myArray[Number(this.id)].baseAttackPower;
-            challengerHealthealthPointsoints = myArray[Number(this.id)].baseHealthealthPointsoints;
-            challengerBaseHealthealthPointsoints = myArray[Number(this.id)].baseHealthealthPointsoints;
+            challengerHealthPoints = myArray[Number(this.id)].baseHealthPoints;
+            challengerBaseHealthPoints = myArray[Number(this.id)].baseHealthPoints;
 
 
             uu = "#" + tempVI;
@@ -162,13 +162,12 @@ $(document).ready(function () {
                     .addClass("btn")
                     .hide()
                     .text(myArray[tempVI].name)
-                    //  .css('background-image', myArray[tempV].image)
                     .css('background-image', myArray[tempVI].image)
                     .css('border-color', 'green')
             );
             challengerName = myArray[tempVI].name;
             console.log('Chanllengers name ' + challengerName);
-            badGuyPercent = Math.round(challengerHealthealthPointsoints / challengerBaseHealthealthPointsoints * 100);
+            badGuyPercent = Math.round(challengerHealthPoints / challengerBaseHealthPoints * 100);
             $("div.badguyhealthPoints").text(challengerName + "'s  Health: " + badGuyPercent + "%");
 
             $('#badguy').fadeIn(400); // fade in at hero position
@@ -183,11 +182,11 @@ $(document).ready(function () {
 
 
     function reportCounterAttack(){
-        heroHealthealthPointsoints -= challengerCounterAttackPower;
-        if(heroHealthealthPointsoints < 0){heroHealthealthPointsoints = 0;}
+        heroHealthPoints -= challengerCounterAttackPower;
+        if(heroHealthPoints < 0){heroHealthPoints = 0;}
         heroAttackPower += heroBaseAttackPower;
         $(".fightInfo").text(challengerName + " attacks " + heroName + " for " + challengerCounterAttackPower + " Dmg!");
-        heroPercent = Math.round(heroHealthealthPointsoints / heroBaseHealthealthPointsoints * 100);
+        heroPercent = Math.round(heroHealthPoints / heroBaseHealthPoints * 100);
         $("div.goodguyhealthPoints").text(heroName + "'s Health: " + heroPercent + "%");
         window.clearInterval(counterAttackTimer);
 
@@ -197,10 +196,10 @@ $(document).ready(function () {
 
     $("button#attack").click(function() {
         if (heroSelected && challengerSelected) {
-            challengerHealthealthPointsoints -= heroAttackPower;
-            if(challengerHealthealthPointsoints < 0){challengerHealthealthPointsoints = 0;}
+            challengerHealthPoints -= heroAttackPower;
+            if(challengerHealthPoints < 0){challengerHealthPoints = 0;}
 
-            badGuyPercent = Math.round(challengerHealthealthPointsoints / challengerBaseHealthealthPointsoints * 100);
+            badGuyPercent = Math.round(challengerHealthPoints / challengerBaseHealthPoints * 100);
             $(".fightInfo").text(heroName + " attacks " + challengerName + " for " + heroAttackPower + " Dmg!");
             $("div.badguyhealthPoints").text(challengerName + "'s  Health: " + badGuyPercent + "%");
             checkForWin();
@@ -211,7 +210,7 @@ $(document).ready(function () {
     });
     $('button#reset').click(function() {
         challengerSelected = false;
-        heroHealthealthPointsoints = heroBaseHealthealthPointsoints;
+        heroHealthPoints = heroBaseHealthPoints;
         $(".selectText").text("Select your opponent");
         backgroundFightAudio.pause();
         backgroundAudio.play();
@@ -220,8 +219,8 @@ $(document).ready(function () {
 
 
     function checkForWin() { // Challenger wins
-        if (heroHealthealthPointsoints <= 0) {
-            heroHealthealthPointsoints = 0;
+        if (heroHealthPoints <= 0) {
+            heroHealthPoints = 0;
             // print win status
             $("#title").text("You have been defeated!");
             // remove hero
@@ -231,8 +230,8 @@ $(document).ready(function () {
             heroSelected = false;
             // end game
 
-        } else if (challengerHealthealthPointsoints <= 0) { // Hero wins
-            challengerHealthealthPointsoints = 0;
+        } else if (challengerHealthPoints <= 0) { // Hero wins
+            challengerHealthPoints = 0;
             // set win status
 
             // print win status
@@ -241,16 +240,16 @@ $(document).ready(function () {
             $("div.badguyhealthPoints").text("");
             $('#badguy').fadeOut(400); // fade in at hero position
             // reset hero healthPoints
-            heroHealthealthPointsoints = heroBaseHealthealthPointsoints;
+            heroHealthPoints = heroBaseHealthPoints;
             challengerSelected = false;
-            heroHealthealthPointsoints = heroBaseHealthealthPointsoints;
+            heroHealthPoints = heroBaseHealthPoints;
             $(".selectText").text("Select your opponent");
             backgroundFightAudio.pause();
             backgroundAudio.play();
             $("html::before ").css('background-image', 'url(../images/background.gif)');
             $('#hero').css('border-color', 'green');
             $('#badGuy').css('border-color', 'green');
-            heroPercent = Math.round(heroHealthealthPointsoints / heroBaseHealthealthPointsoints * 100);
+            heroPercent = Math.round(heroHealthPoints / heroBaseHealthPoints * 100);
             $("div.goodguyhealthPoints").text(heroName + "'s Health: " + heroPercent + "%");
             $("#title").text(heroName + " is victorious!")
 
@@ -258,25 +257,25 @@ $(document).ready(function () {
 
         } else {
             var counterAttackTimer = setTimeout(reportCounterAttack, 800);
-            if (heroHealthealthPointsoints / heroBaseHealthealthPointsoints * 100 < 75) {
+            if (heroHealthPoints / heroBaseHealthPoints * 100 < 75) {
 
                 $('#hero').css('border-color', 'yellow');
             }
-            if (challengerHealthealthPointsoints / challengerBaseHealthealthPointsoints * 100 < 75) {
+            if (challengerHealthPoints / challengerBaseHealthPoints * 100 < 75) {
                 $('#badguy').css('border-color', 'yellow');
             }
-            if (heroHealthealthPointsoints / heroBaseHealthealthPointsoints * 100 < 50) {
+            if (heroHealthPoints / heroBaseHealthPoints * 100 < 50) {
 
                 $('#hero').css('border-color', 'orange');
             }
-            if (challengerHealthealthPointsoints / challengerBaseHealthealthPointsoints * 100 < 50) {
+            if (challengerHealtPoints / challengerBaseHealthPoints * 100 < 50) {
                 $('#badguy').css('border-color', 'orange');
             }
-            if (heroHealthealthPointsoints / heroBaseHealthealthPointsoints * 100 < 25) {
+            if (heroHealthPoints / heroBaseHealthPoints * 100 < 25) {
 
                 $('#hero').css('border-color', 'red');
             }
-            if (challengerHealthealthPointsoints / challengerBaseHealthealthPointsoints * 100 < 25) {
+            if (challengerHealthPoints / challengerBaseHealthPoints * 100 < 25) {
                 $('#badguy').css('border-color', 'red');
             }
 
